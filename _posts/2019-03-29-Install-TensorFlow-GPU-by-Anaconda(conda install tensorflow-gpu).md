@@ -15,6 +15,7 @@ tags:
 
 
 Word2vec is a technique for natural language processing to learn word embeddings using neural network.
+
 ---
 
 ## What is the purpose of word2vec?
