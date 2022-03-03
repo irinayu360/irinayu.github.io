@@ -14,14 +14,16 @@ tags:
 ---
 
 
-
 Word2vec is a technique for natural language processing to learn word embeddings using neural network.
-What is the purpose of word2vec?
-The purpose and usefulness of word2vec is to group the vectors of similar words together in vector space. That is, it detects similarities mathematically.
 ---
 
-## Install Anaconda
->[Anaconda](https://www.anaconda.com/) is a free and open-source distribution of the Python and R programming languages for scientific computing, that aims to simplify package management and deployment.   
+## What is the purpose of word2vec?
+The purpose and usefulness of word2vec is to group the vectors of similar words together in vector space. That is, it detects similarities mathematically.
+
+Word2vec creates embedding vectors that are distributed numerical representations of word features such as the context of individual words. The idea is a word could be intuitively represented by its context. As an old saying once said, a man is known by the company he/she keeps, same goes the word.
+
+The big advantage of word2vec over TF-IDF is it retains the semantic meaning of different words in a document. The context information is not lost.
+
 
 **You can download anaconda [here](https://www.anaconda.com/distribution/#download-section).**
 
