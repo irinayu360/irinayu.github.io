@@ -4,7 +4,7 @@ title:      Word2Vec SkipGram with Math and Implementation
 subtitle:   A in-depth explanation of Word2vec via Skipgram of both mathematical theory and practical implementation
 date:       2022-03-03
 author:     Xinli (Irina) Yu
-header-img: img/art-Anaconda-TensorFlow.jpg
+header-img: img/horse.jpeg
 catalog: true
 tags:
     - Machine Learning
