@@ -25,76 +25,40 @@ Word2vec creates embedding vectors that are distributed numerical representation
 
 The big advantage of word2vec over TF-IDF is it retains the semantic meaning of different words in a document. The context information is not lost.
 
+## How the word embeddings are learnt?
 
-**You can download anaconda [here](https://www.anaconda.com/distribution/#download-section).**
+The word2vec is trained by first designing a model for another task, in which the parameters are word embedding. As we improve the accuracy for the particular task by iterations and back propagation, the parameters, i.e., word embedding is also becoming more and more accurate.
+The particular task and model we use for word2vec is the SkipGram model. We are not interested in the prediction of the model, but the by-product(word vectors/embeddings) of the model.
 
-One of the advantage of anaconda is that it can create **isolated environment** in your device, and you can configure any libraries and toolkits in the 'env' without affect other environment. Once you are nor satisfied of your configuration, you can simplily delete the environment.
+## SkipGram model
 
-Note that in you are in **China**, download anaconda might take a long time due to some resons that cannot say. Instead, you can download it from [**Tsinghua mirror**](https://mirror.tuna.tsinghua.edu.cn/help/anaconda/), and install it **manually**.  
+We could use a SkipGram model to train these word embeddings. Given the center word “jumped”, the model will be able to predict or generate the surrounding words “The”, “cat”, “over”, “the”, “puddle”. Here we call the word “jumped” the context. We call this type of model a SkipGram model.
 
-After downloading this successfully, try to run the installation file.
-For example, if you use ubuntu, you can cd to the path of the sh file and run the following command:
+## Training with normal SoftMax
 
-```bash
-./Anaconda3-5.3.1-Linux-x86_64.sh
-```
-***Attention that you should change the command above to your own installation file name.***
+The loss is cross entropy loss. Suppose we would like to learn a N-dim word embedding, the vocabulary size is |V|-dim, and we use a window size of m.
+Input would be a |V|-dim one-hot vector representing the center word, for example “brown”. The model is trying to predict the context words around the center word, for example “fox”, “jump” etc.
+Let us take the pair (“brown”, “fox”) as an example to illustrate the training process.
 
-Then you will successfully install Anaconda!
+Step 1:
+The input |V|-dim one-hot is first mapped into a N-dim vector v via embedding lookup matrix U of size (|V|, N), which is the hidden layer shown in the figure.
 
-## Create new environment by conda
+Step 2:
+The hidden layer vector v is mapped by another context embedding matrix V of size (N, |V|) to a |V|-dim vector. The element represents the likelihood of each word in vocabulary occurring with the center word.
 
-If you are unwilling to create conda environment (maybe because of lazy), you can skip this section. However, I strongly reconmend you to create this **for the convience in the future**.  
+Step 3:
+Then a SoftMax layer would be applied to normalize the likelihood to a probability distribution.
 
-Run the command below:
-```bash
-conda create -n tf
-```
-![picture1](/img/20190328post.jpg)
+Step 4:
+Finally, the cross entropy loss is applied to the probability distribution with the ground truth one-hot vector, in our case one-hot vector for word“fox”.
 
-'tf' is the name of your new conda environment, you can try other names as your own interest.
+The error is back propagated and the word-embedding and context-embedding layers are updated via gradient descent.
 
-For other management you conda env, you can read [this](https://conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html?highlight=environment).
+![picture1](/img/formula1.jpg)
 
-## Install Tensorflow
-
-First, you need to change to the env you have just built by conda:
-```bash
-source activete tf
-```
-![picture2](/img/20190328post2.jpg)  
-
-For Chinese users, before starting the installation, you may change the source of conda as the same reason before. For more details, read the webcite of [Tsinghua Mirror](https://mirror.tuna.tsinghua.edu.cn/help/anaconda/).
-Chinese users should type in this:
-```bash
-conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/
-conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/
-conda config --set show_channel_urls yes
-```
+The training could be expensive since in the denominator of SoftMax, we need to compute all the inner products between the context embedding for the |V| vocabulary and the center word embedding. This would be O(|V|) time complexity.
 
 
-Afterwards, type in the command to install TensorFlow you need:
-```bash
-conda install tensorflow-gpu
-```
-![picture3](/img/20190328post3.jpg)  
-
-If you want to install a specific version of tensorflow-gpu or cpu veison, you can change the command like this:
-```bash
-conda install tensorflow-gpu=1.10.0  #if you want to install 1.10.0 version
-conda install tensorflow  #if you want to install cpu version
-```
-After anaconda solve the environment, you just need to type in 'y' to confirm the installation.  
-
-Anaconda will **automatically** install other libs and toolkits needed by tensorflow(e.g. CUDA, and cuDNN), so you have no need to worry about this.
---
-
-Type in `python` to enter the python environment.
-```python
-import tensorflow as tf
-tf.__version__
-```
-When you see the version of tensorflow, such as 1.10.0, you have successfully install it.
 
 That's all, Thank you.
 
